@@ -1,0 +1,14 @@
+= ds12b18 - Dallas Temperature sensor
+
+- temperature range: -55 - +125
+- accuracy: +-0.5
+
+== Wiring
+
+* Arduino - ds12b18
+* GND     - GND  (1)
+* D3      - DATA (2)
+* +3-5v   - VDD  (3)
+
+Wire DATA and VDD with 4.7K resistor!!!
+

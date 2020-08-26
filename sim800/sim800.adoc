@@ -1,0 +1,192 @@
+= SIM800 GSM module
+
+GSM Модуль
+
+* https://simcom.ee
+* http://codius.ru/articles/GSM_%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8C_SIM800L_%D1%87%D0%B0%D1%81%D1%82%D1%8C_1
+* https://www.waveshare.com/wiki/SIM800C_GSM/GPRS_HAT
+
+== Питание
+
+Очень важно подать правильное питание. Иначе модуль будет глючить:
+* не включаться
+* включаться, но не подключаться к сети оператора
+* не выполнять TCP соединение  
+* и т.п.
+
+Рекомендуется 4v, допустимый диапазон (3.4v - 4.5v)
+
+Рабочие варианты
+* блок питания + Step Down регулятор 4v
+* Lithium battery 3.7v с Step up до 4v
+
+WARN: Плохо работает от батареек AA (AAA) 2шт с step up, 3шт c step down
+  (отвечает на AT команды, но не подключается к сети оператора)
+
+== AT commands
+
+=== Информация
+
+* ATI - версия модуля
+
+* AT+CGMR - версия прошивки
+
+* AT+GSV - идентификационная информация (имя модуля, версия прошивки)
+
+* AT+CCALR? - готовность совершать звонки (1 - ready, 0 - not ready)
+
+* AT+GSN - IMEI модуля
+
+* AT+COPS? - Информация об операторе 
+
+* AT+CBC - Напряжение питания
+
+----
+
++CBC: <bcs>,<bcl>,<voltage>
+OK
+
+где:
+<bcs> — статус зарядки
+0 — зарядки нет
+1 — зарядка идет
+2 — зарядка завершена
+<bcl> — объем оставшегося заряда в процентах (1...100)
+<voltage> — напряжение питания модуля, в милливольтах 
+----
+
+* Синхронизация времени
+----
+// Enable time synchronization
+AT+CLTS=1
+// Save settings 
+AT&W
+
+// Reboot or unregister/register network
+// time synchronization message will be received.
+// After that next command will return valid time:
+AT+CCLK?
+----
+
+=== Отправка SMS
+
+----
+AT+CMGS="+375296393370"
+> Hello Anton
+Ctrl-Z (0x1a)
+
++CMGS: 1
+----
+
+=== GPRS
+
+Модуль имеет встроенную поддержку 
+* TCP 
+* Applications: HTTP, FTP, SMTP, POP3.
+
+NOTE: TCP и приложения активируются по-разному (см. ниже).
+
+==== Активация GPRS
+
+----
+// Enable GPRS service.
+AT+CGATT=1
+
+// Disable GPRS service.
+AT+CGATT=0
+----
+
+==== TCP подключение
+
+* Подключиться к точке доступа
+
+----
+// Enable transparent mode. Optional.
+// See below .
+AT+CIPMODE=1
+
+// Set APN. Required.
+AT+CSTT="mts","mts","mts"
+
+// Connect APN. Required.
+AT+CIICR
+
+// Obtain IP. Required.
+AT+CIFSR
+----
+
+* Отключить GPRS контекст
+
+----
+// Deactivate GPRS context
+AT+CIPSHUT
+----
+
+* Отправка HTTP запроса через TCP соединение
+----
+// Establish TCP connection
+AT+CIPSTART="TCP","www.google.com",80
+
+CONNECT OK | ALREADY CONNECT | CONNECT FAIL
+
+AT+CIPSEND=39
+>
+
+GET / HTTP/1.1
+Host: www.google.com
+
+
+SEND OK
+
+// Close TCP connection
+AT+CIPCLOSE
+----
+
+=== Applications
+
+* Активация приложений
+
+----
+// Set connection type GPRS
+AT+SAPBR=3,1,"CONTYPE","GPRS"
+
+// Set APN
+AT+SAPBR=3,1,"APN","mts"
+
+// Set USER
+AT+SAPBR=3,1,"USER","mts"
+
+// Set PWD
+AT+SAPBR=3,1,"PWD","mts"
+
+// Open GPRS bearer
+AT+SAPBR=1,1
+----
+
+* Деактивация приложений
+
+----
+// Close GPRS bearer
+AT+SAPBR=0,1
+----
+
+* Отправка HTTP запроса через TCP соединение
+----
+// Initialize HTTP Service
+AT+HTTPINIT
+
+// HTTP parameter (bearer identifier) 
+AT+HTTPPARA="CID",1
+
+// HTTP parameter URL
+AT+HTTPPARA="URL","www.sim.com"
+
+// Execute GET method
+AT+HTTPACTION=0
+
+// Read response
+AT+HTTPREAD
+
+// Terminate HTTP session
+AT+HTTPTERM
+----
