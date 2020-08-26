@@ -148,7 +148,25 @@ esptool.py write_flash \
 * AT+CWLAP - список доступных сетей
 * AT+CWJAP="SSID","password" - подключиться к сети
 * AT+CIFSR - вывести IP (после подключения)
+* Configure IP
+    ** Option 1. static IP: AT+CIPSTA_DEF="192.168.100.101","192.168.100.1","255.255.255.0"
+    ** Option 2. DHCP: AT+CWDHCP_DEF=1,1
 
+==== HTTP GET
+
+===== Prepare 
+* AT+CWMODE=1 - set the module operating mode to STA
+* AT+CWLAP - check the available access points to connect to.
+* AT+CWJAP="ssid","password" - to connect to the access point.
+* AT+CIPMUX=1 - enable multiple connections.
+* AT+CIFSR - check the module ip and connection status.
+* AT+CWDHCP_CUR - check network status (ip, mask, gateway)
+
+===== Request
+* AT+CIPSTART="TCP","www.google.com",80 - start the connection to google (you may occasionally get DNS fail, just retry the command)
+* AT+CIPSEND=42 - send 42 characters When you receive > from the module send the following data (replacing \r\n with CR and LF characters):
+** GET/HTTP/1.1
+** Host: www.google.com
 
 === esp-link (Wifi-Serial Bridge)
 
@@ -211,5 +229,4 @@ RX(GPIO3)  - TX
 TX(GPIO1)  - RX
 gpio0      - Reset
 ----
-
 
