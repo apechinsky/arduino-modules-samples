@@ -1,0 +1,13 @@
+= MH-Z19 CO2 sensor
+
+* https://www.winsen-sensor.com/sensors/co2-sensor/mh-z19b.html
+
+== Wiring
+
+WARN:: RX/TX operation voltage is 3.3v!!! Make sure that sensor's RX signal is 3.3v.
+
+* Arduino - MH-Z19
+* TX      - RX  (2) 
+* RX      - TX  (3)
+* +3-5v   - VDD (6)
+* GND     - GND (7)
