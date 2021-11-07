@@ -1,48 +1,44 @@
-#include "Arduino.h"
-
-#define LED_PIN 13
 #define TRIG_PIN 10 
 #define ECHO_PIN 11  
 
+#define SOUND_SPEED_AT_20_DEGREE 340
+
 void setup() {
     Serial.begin(9600);
-    pinMode(LED_PIN, OUTPUT);
-  
+
     pinMode(TRIG_PIN, OUTPUT);
     pinMode(ECHO_PIN, INPUT);
 }
 
 void loop() {
 
-    led(HIGH);
+    float distance = getDistance(SOUND_SPEED_AT_20_DEGREE);
 
-    // для большей точности установим значение LOW на пине Trig
+    Serial.print(distance * 100); 
+    Serial.println(" cm"); 
+
+    delay(500);
+}
+
+/**
+ * Measures and returns distance in meters.
+ *
+ * @param soundSpeed sound speed
+ */
+float getDistance(float soundSpeed) {
+    // ensure low level on trig pin
     digitalWrite(TRIG_PIN, LOW); 
     delayMicroseconds(2); 
 
-    // Теперь установим высокий уровень на пине Trig
+    // set high level for 10 microseconds
     digitalWrite(TRIG_PIN, HIGH);
-
-    // Подождем 10 μs 
     delayMicroseconds(10); 
     digitalWrite(TRIG_PIN, LOW); 
 
-    // Узнаем длительность высокого сигнала на пине Echo
+    // read signal return duration in microseconds
     int duration = pulseIn(ECHO_PIN, HIGH); 
 
-    led(LOW);
-
-    // Рассчитаем расстояние
-    int distance = duration / 58;
-    // Выведем значение в Serial Monitor
-    Serial.print(distance); 
-    Serial.println(" cm"); 
-
-    delay(100);
-
-}
-
-void led(boolean enable) {
-    digitalWrite(LED_PIN, enable);
+    // compute distance
+    return soundSpeed * duration / 1000000 / 2;
 }
 
