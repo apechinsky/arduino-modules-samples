@@ -1,0 +1,22 @@
+= hc-sr04 - Ultrasonic distance meter
+
+* Power Supply: +5V DC
+* Quiescent Current: <2mA
+* Working current: 15mA
+* Effectual Angle: <15o
+* Ranging Distance: 2­- 400cm
+* Resolution: 0.3 cm
+* Measuring Angle: 30 degree
+* Trigger Input Pulse width: 10uS
+* Dimension: 45mm x 20mm x 15mm
+* Weight: approx. 10g
+
+== Wiring
+
+* Arduino - hc-sr04
+* GND     - Gnd  (1)
+* D3      - Echo (2)
+* D3      - Trig (2)
+* +3-5v   - Vcc  (3)
+
+
