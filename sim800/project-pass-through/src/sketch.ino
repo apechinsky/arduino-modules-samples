@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
  
 // RX, TX
-SoftwareSerial sim800 = SoftwareSerial(3, 4);
+SoftwareSerial sim800 = SoftwareSerial(7, 6);
  
 void setup() {
   Serial.begin(9600);

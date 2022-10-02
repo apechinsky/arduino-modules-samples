@@ -1,0 +1,19 @@
+= BMP280 Temperature Humidity Pressure sensor
+
+== links
+
+* https://cdn-shop.adafruit.com/datasheets/BST-BMP280-DS001-11.pdf
+
+== Specification
+
+* Voltage: 1.71 - 3.6v
+* Peak current: 1.12 Ma
+* Temperature: -40C - +85C
+
+== Wiring
+
+Arduino    BMP280
+GND   ---  GND
+3.3v  ---  VCC
+A4    ---  SDA
+A5    ---  SCL

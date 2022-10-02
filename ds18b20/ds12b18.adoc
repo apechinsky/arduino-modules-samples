@@ -1,0 +1,24 @@
+= ds18b20 - Dallas Temperature sensor
+
+- temperature range: -55 - +125
+- accuracy: +-0.5
+
+== Wiring
+
+Wire DATA and VDD with 4.7K resistor!!!
+
+=== Normal mode
+
+* Arduino - ds18b20
+* GND     - GND  (1)
+* D3      - DATA (2)
+* +3-5v   - VDD  (3)
+
+
+=== Parasite power mode
+
+* Arduino - ds18b20
+* GND     - GND  (1)
+* D3      - DATA (2)
+* GND     - VDD  (3)
+

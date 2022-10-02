@@ -1,6 +1,10 @@
 = hc-sr04 - Ultrasonic distance meter
 
-* Power Supply: +5V DC
+== links 
+
+== Specification
+
+* Voltage: +5V DC
 * Quiescent Current: <2mA
 * Working current: 15mA
 * Effectual Angle: <15o
