@@ -3,6 +3,11 @@
 - temperature range: -55 - +125
 - accuracy: +-0.5
 
+== links
+
+* link:https://datasheets.maximintegrated.com/en/ds/DS18B20.pdf[Datasheet]
+* link:https://arduinomaster.ru/datchiki-arduino/arduino-ds18b20[Arduinomaster article]
+
 == Wiring
 
 Wire DATA and VDD with 4.7K resistor!!!
